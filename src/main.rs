@@ -3,7 +3,6 @@ use clap::Parser;
 use serde_json;
 
 mod args;
-mod types;
 mod machine_input;
 mod machine_description;
 
