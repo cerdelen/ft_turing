@@ -1,14 +1,13 @@
-use std::fs;
-use clap::Parser;
-use serde_json;
+use machine_core::MachineCore;
 
 mod args;
-mod machine_input;
+mod machine_tape;
 mod machine_description;
-
-// use args::TuringMachineArgs;
-
+mod machine_core;
 
 fn main() {
-    args::init();
+    let (desc, tape) = args::init();
+    println!("Machine Tape: {:?}\nMachine Description: {:?}", tape, desc);
+    let machine = MachineCore::new(desc, tape);
+    machine.run()
 }
