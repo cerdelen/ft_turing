@@ -29,8 +29,11 @@ pub struct MachineDescription {
 }
 
 impl MachineDescription {
-    pub fn new(input: BufReader<File>) -> Self {
-        serde_json::from_reader(input).expect("Invalid Json")
+    pub fn new(input: BufReader<File>) -> (Self, String) {
+        let ret:Self = serde_json::from_reader(input).expect("Invalid Json");
+        let initial = ret.initial.clone();
+        (ret, initial)
+
     }
 
     // get all Transitions for given State

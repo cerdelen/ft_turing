@@ -6,7 +6,7 @@ use std::io::{BufReader, Read};
 use std::fmt;
 
 #[derive(Debug)]
-enum RunningOfTapeErr {
+pub enum RunningOfTapeErr {
     LEFT,
     RIGHT,
 }
@@ -59,7 +59,8 @@ impl MachineTape {
         Ok(())
     }
 
-    fn current_character(&self) -> Option<char> {
-        self.tape.chars().nth(self.head)
+
+    pub fn get_read(&self) -> char {
+        self.tape.chars().nth(self.head).unwrap()
     }
 }

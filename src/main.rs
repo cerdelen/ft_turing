@@ -6,8 +6,8 @@ mod machine_description;
 mod machine_core;
 
 fn main() {
-    let (desc, tape) = args::init();
+    let (desc, tape, initial_state) = args::init();
     println!("Machine Tape: {:?}\nMachine Description: {:?}", tape, desc);
-    let machine = MachineCore::new(desc, tape);
+    let machine = MachineCore::new(desc, tape, initial_state);
     machine.run()
 }
