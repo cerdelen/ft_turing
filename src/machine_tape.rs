@@ -2,6 +2,7 @@ use std::error::Error;
 use std::fs::File;
 use std::io::{BufReader, Read};
 
+use crate::machine_description::Action;
 
 use std::fmt;
 
@@ -28,7 +29,7 @@ impl std::error::Error for RunningOfTapeErr {}
 
 #[derive(Debug)]
 pub struct MachineTape {
-    tape: String,
+    tape: Vec<char>,
     head: usize,
 }
 
@@ -41,13 +42,14 @@ impl MachineTape {
     pub fn new(input: &mut BufReader<File>) -> Self {
         let mut content = String::new();
         input.read_to_string(&mut content).expect("Could not Read Input Tape");
-        Self{tape: content, head: 0}
+        let tape = content.chars().collect();
+        Self{tape, head: 0}
     }
 
-    pub fn move_head(&mut self, direction: HeadDirection) -> Result<(), RunningOfTapeErr> {
+    pub fn move_head(&mut self, direction: &Action) -> Result<(), RunningOfTapeErr> {
         match direction {
-            HeadDirection::LEFT => self.head = self.head.checked_sub(1).ok_or(RunningOfTapeErr::LEFT)?,
-            HeadDirection::RIGHT => {
+            Action::LEFT => self.head = self.head.checked_sub(1).ok_or(RunningOfTapeErr::LEFT)?,
+            Action::RIGHT => {
                 if self.head == self.tape.len() {
                     return Err(RunningOfTapeErr::RIGHT);
                 }
@@ -60,7 +62,20 @@ impl MachineTape {
     }
 
 
-    pub fn get_read(&self) -> char {
-        self.tape.chars().nth(self.head).unwrap()
+    pub fn get_read(&self) -> &char {
+        self.tape.get(self.head).unwrap()
+        // self.tape.chars().nth(self.head).unwrap()
+    }
+
+    pub fn perform_write(&mut self, value: &char) {
+        let char_to_change = match self.tape.get_mut(self.head) {
+            Some(c) => c,
+            None => {
+                panic!("{}", &format!("Head Position is not on Tape!\nHead: {}, Tape Lengt: {}", self.head, self.tape.len()));
+            },
+        };
+        *char_to_change = *value;
+        // self.tape.chars().nth(self.head).unwrap()
+
     }
 }
