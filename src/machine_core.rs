@@ -1,4 +1,5 @@
-use crate::{machine_description::MachineDescription, machine_input::MachineTape};
+use crate::machine_description::MachineDescription;
+use crate::machine_tape::MachineTape;
 
 pub struct MachineCore {
     description: MachineDescription,
@@ -10,7 +11,6 @@ impl MachineCore {
 
     pub fn new(desc: MachineDescription, tape: MachineTape) -> Self {
         Self{description: desc, tape}
-
     }
 
     pub fn run(&self) {
