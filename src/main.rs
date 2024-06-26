@@ -7,7 +7,8 @@ mod machine_core;
 
 fn main() {
     let (desc, tape, initial_state) = args::init();
-    println!("Machine Tape: {:?}\nMachine Description: {:?}", tape, desc);
+    // println!("Machine Tape: {:?}\nMachine Description: {:?}", tape, desc);
+    println!("Machine Tape: {:?}", &tape);
     let mut machine = MachineCore::new(desc, tape, initial_state);
     machine.run()
 }

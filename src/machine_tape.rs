@@ -42,7 +42,11 @@ impl MachineTape {
     pub fn new(input: &mut BufReader<File>) -> Self {
         let mut content = String::new();
         input.read_to_string(&mut content).expect("Could not Read Input Tape");
+        if content.ends_with('\n') {
+            content.pop();
+        }
         let tape = content.chars().collect();
+        // todo (chcek that all characters are part of alphabet)
         Self{tape, head: 0}
     }
 
@@ -61,6 +65,9 @@ impl MachineTape {
         Ok(())
     }
 
+    pub fn get_full_tape(&self) -> &Vec<char> {
+        &self.tape
+    }
 
     pub fn get_read(&self) -> &char {
         self.tape.get(self.head).unwrap()
@@ -77,5 +84,9 @@ impl MachineTape {
         *char_to_change = *value;
         // self.tape.chars().nth(self.head).unwrap()
 
+    }
+
+    pub fn get_head_pos(&self) -> usize {
+        self.head
     }
 }

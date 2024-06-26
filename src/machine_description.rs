@@ -73,4 +73,8 @@ impl MachineDescription {
         let ret = transition.ok_or(DescriptionErrors::NoTransitionForReadInState)?;
         Ok(ret)
     }
+
+    pub fn check_for_end(&self, state: &String) -> bool {
+        self.finals.contains(state)
+    }
 }
