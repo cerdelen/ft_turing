@@ -1,6 +1,7 @@
 use serde::Deserializer;
 use serde::Deserialize;
 use std::collections::HashMap;
+use std::fmt;
 use std::fs::File;
 use std::io::BufReader;
 
@@ -76,5 +77,37 @@ impl MachineDescription {
 
     pub fn check_for_end(&self, state: &String) -> bool {
         self.finals.contains(state)
+    }
+
+    pub fn part_of_alphabet(&self, c: &char) -> bool {
+        self.alphabet.contains(c)
+    }
+}
+
+impl fmt::Display for Transition {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "\'{}\' -> (write: \'{}\', action: {:?}, change_to: {})", self.read, self.write, self.action, self.to_state)?;
+        Ok(())
+    }
+}
+impl fmt::Display for MachineDescription {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        writeln!(f, "********************************************************************************")?;
+        writeln!(f, "*                                                                              *")?;
+        writeln!(f, "* {:<74} *", self.name)?;
+        writeln!(f, "*                                                                              *")?;
+        writeln!(f, "********************************************************************************")?;
+        writeln!(f, "Alphabet: {:?}", self.alphabet)?;
+        writeln!(f, "States   : {:?}", self.states)?;
+        writeln!(f, "Initial  : {:?}", self.initial)?;
+        writeln!(f, "Finals   : {:?}", self.finals)?;
+        for transitions in self.transitions.iter() {
+            writeln!(f, "{:?}:", transitions.0)?;
+            for transition in transitions.1 {
+                writeln!(f, "\t{}", transition)?;
+            }
+        }
+        writeln!(f, "********************************************************************************")?;
+        Ok(())
     }
 }

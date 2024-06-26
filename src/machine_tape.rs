@@ -2,7 +2,7 @@ use std::error::Error;
 use std::fs::File;
 use std::io::{BufReader, Read};
 
-use crate::machine_description::Action;
+use crate::machine_description::{Action, MachineDescription};
 
 use std::fmt;
 
@@ -39,14 +39,21 @@ pub enum HeadDirection {
 }
 
 impl MachineTape {
-    pub fn new(input: &mut BufReader<File>) -> Self {
+    pub fn new(input: &mut BufReader<File>, desc: &MachineDescription) -> Self {
         let mut content = String::new();
         input.read_to_string(&mut content).expect("Could not Read Input Tape");
+        // deleting new line
         if content.ends_with('\n') {
             content.pop();
         }
-        let tape = content.chars().collect();
-        // todo (chcek that all characters are part of alphabet)
+        // string into Vec
+        let tape: Vec<char> = content.chars().collect();
+        // Checking for illegal Character
+        for (i, c) in tape.iter().enumerate() {
+            if desc.part_of_alphabet(&c) == false {
+                panic!("Illegal Character ({}) not Part of the Alphabet in the Tape at Index {}\n", c, i);
+            }
+        }
         Self{tape, head: 0}
     }
 
@@ -82,8 +89,6 @@ impl MachineTape {
             },
         };
         *char_to_change = *value;
-        // self.tape.chars().nth(self.head).unwrap()
-
     }
 
     pub fn get_head_pos(&self) -> usize {
