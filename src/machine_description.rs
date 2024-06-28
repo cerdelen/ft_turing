@@ -82,6 +82,10 @@ impl MachineDescription {
     pub fn part_of_alphabet(&self, c: &char) -> bool {
         self.alphabet.contains(c)
     }
+
+    pub fn is_blank(&self, c: &char) -> bool {
+        self.blank == *c
+    }
 }
 
 impl fmt::Display for Transition {

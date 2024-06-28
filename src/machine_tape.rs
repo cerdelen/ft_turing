@@ -50,6 +50,9 @@ impl MachineTape {
         let tape: Vec<char> = content.chars().collect();
         // Checking for illegal Character
         for (i, c) in tape.iter().enumerate() {
+            if desc.is_blank(&c) == true {
+                panic!("Blank is not allowed in Input Tape! Blank at index: {}\n", i);
+            }
             if desc.part_of_alphabet(&c) == false {
                 panic!("Illegal Character ({}) not Part of the Alphabet in the Tape at Index {}\n", c, i);
             }
