@@ -1,0 +1,20 @@
+{
+    "name" : "zero_2_n",
+    "alphabet": [ "0", "." ],
+    "blank" : ".",
+    "states" : [ "EVEN", "UNEVEN", "HALT" ],
+    "initial" : "EVEN",
+    "finals" : [ "HALT" ],
+    "transitions" : {
+
+        "EVEN" : [
+            { "read" : ".", "to_state": "HALT" , "write": "y", "action": "RIGHT"},
+            { "read" : "0", "to_state": "UNEVEN" , "write": "0", "action": "RIGHT"},
+        ],
+
+        "UNEVEN": [
+            { "read" : ".", "to_state": "HALT" , "write": "n", "action": "RIGHT"},
+            { "read" : "0", "to_state": "EVEN" , "write": "0", "action": "RIGHT"},
+        ]
+    }
+}

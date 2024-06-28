@@ -23,14 +23,14 @@ pub fn init() -> (MachineDescription, MachineTape, String) {
     let machine_description_reader = BufReader::new(m_d_file);
     let (desc, initial_state): (MachineDescription, String) = MachineDescription::new(machine_description_reader);
 
+    // This is official description print, overloaded
     println!("{}", desc);
-    // desc.print_full_description();
-    // println!("Machine Description: {:?}", tape, desc);
 
     let m_i_file = File::open(Path::new(&args.machine_tape)).expect(&format!("Could not open Machine Input File \"{:?}\"", &args.machine_tape));
     let mut machine_input_reader = BufReader::new(m_i_file);
     let input: MachineTape = MachineTape::new(&mut machine_input_reader, &desc);
 
+    // This is official starting Tape print, overloaded
     println!("Machine Tape: {:?}", &input);
     println!("********************************************************************************");
 
