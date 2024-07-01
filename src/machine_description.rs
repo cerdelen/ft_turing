@@ -83,8 +83,8 @@ impl MachineDescription {
         self.alphabet.contains(c)
     }
 
-    pub fn is_blank(&self, c: &char) -> bool {
-        self.blank == *c
+    pub fn get_blank(&self) -> char {
+        self.blank
     }
 }
 

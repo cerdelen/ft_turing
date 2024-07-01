@@ -51,12 +51,7 @@ impl MachineCore {
                 trans.write, trans.to_state, trans.action
             ));
             self.tape.perform_write(&trans.write);
-            match self.tape.move_head(&trans.action) {
-                Ok(_) => (),
-                Err(err) => {
-                    println!("Ran of the Tape!\n{:?}", err);
-                }
-            }
+            self.tape.move_head(&trans.action);
             self.state = trans.to_state.clone();
 
             let stdout = io::stdout();

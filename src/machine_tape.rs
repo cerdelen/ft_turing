@@ -6,22 +6,22 @@ use crate::machine_description::{Action, MachineDescription};
 
 use std::fmt;
 
-#[derive(Debug)]
-pub enum RunningOfTapeErr {
-    LEFT,
-    RIGHT,
-}
+// #[derive(Debug)]
+// pub enum RunningOfTapeErr {
+//     LEFT,
+//     RIGHT,
+// }
 
-impl fmt::Display for RunningOfTapeErr {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            RunningOfTapeErr::LEFT => write!(f, "Ran off the Tape to the Left"),
-            RunningOfTapeErr::RIGHT => write!(f, "Ran off the Tape to the Right"),
-        }
-    }
-}
+// impl fmt::Display for RunningOfTapeErr {
+//     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+//         match self {
+//             RunningOfTapeErr::LEFT => write!(f, "Ran off the Tape to the Left"),
+//             RunningOfTapeErr::RIGHT => write!(f, "Ran off the Tape to the Right"),
+//         }
+//     }
+// }
 
-impl std::error::Error for RunningOfTapeErr {}
+// impl std::error::Error for RunningOfTapeErr {}
 
 
 
@@ -31,6 +31,7 @@ impl std::error::Error for RunningOfTapeErr {}
 pub struct MachineTape {
     tape: Vec<char>,
     head: usize,
+    blank: char,
 }
 
 pub enum HeadDirection {
@@ -50,29 +51,33 @@ impl MachineTape {
         let tape: Vec<char> = content.chars().collect();
         // Checking for illegal Character
         for (i, c) in tape.iter().enumerate() {
-            if desc.is_blank(&c) == true {
+            if desc.get_blank() == *c {
                 panic!("Blank is not allowed in Input Tape! Blank at index: {}\n", i);
             }
             if desc.part_of_alphabet(&c) == false {
                 panic!("Illegal Character ({}) not Part of the Alphabet in the Tape at Index {}\n", c, i);
             }
         }
-        Self{tape, head: 0}
+        Self{tape, head: 0, blank: desc.get_blank()}
     }
 
-    pub fn move_head(&mut self, direction: &Action) -> Result<(), RunningOfTapeErr> {
+    pub fn move_head(&mut self, direction: &Action) {
         match direction {
-            Action::LEFT => self.head = self.head.checked_sub(1).ok_or(RunningOfTapeErr::LEFT)?,
-            Action::RIGHT => {
-                if self.head == self.tape.len() {
-                    return Err(RunningOfTapeErr::RIGHT);
+            Action::LEFT => {
+                if self.head == 0 {
+                    self.tape.insert(0, self.blank);
                 }
                 else {
-                    self.head = self.head + 1
+                    self.head -= 1;
                 }
+            },
+            Action::RIGHT => {
+                if self.head == self.tape.len() {
+                    self.tape.push(self.blank);
+                }
+                self.head = self.head + 1
             }
         };
-        Ok(())
     }
 
     pub fn get_full_tape(&self) -> &Vec<char> {

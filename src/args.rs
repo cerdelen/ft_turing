@@ -31,7 +31,7 @@ pub fn init() -> (MachineDescription, MachineTape, String) {
     let input: MachineTape = MachineTape::new(&mut machine_input_reader, &desc);
 
     // This is official starting Tape print, overloaded
-    println!("Machine Tape: {:?}", &input);
+    println!("Machine Tape: {:?}\n", &input);
     println!("********************************************************************************");
 
     (desc, input, initial_state)
