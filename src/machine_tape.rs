@@ -1,4 +1,5 @@
 
+use core::fmt;
 use std::fs::File;
 use std::io::{BufReader, Read};
 use crate::machine_description::{Action, MachineDescription};
@@ -77,5 +78,17 @@ impl MachineTape {
 
     pub fn get_head_pos(&self) -> usize {
         self.head
+    }
+}
+
+impl fmt::Display for MachineTape {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut buffer = String::new();
+        buffer.push_str(&format!("[ "));
+        for c in self.tape.iter() {
+            buffer.push(*c);
+        }
+        buffer.push_str(&format!(" ]"));
+        write!(f, "{}", buffer)
     }
 }

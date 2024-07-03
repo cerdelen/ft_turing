@@ -1,5 +1,5 @@
 use std::io::{self, Write};
-
+use crate::consts::*;
 use crate::machine_description::{DescriptionErrors, MachineDescription};
 use crate::machine_tape::MachineTape;
 
@@ -62,6 +62,6 @@ impl MachineCore {
             }
             buffer.clear();
         }
-    // println!("Machine Tape: {:?}", &self.tape);
+        println!("\n\n{}Machine Tape:{} {}\n\n", BOLD_GREEN_CHAR, RESET_CHAR, &self.tape);
     }
 }
