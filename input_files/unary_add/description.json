@@ -1,0 +1,49 @@
+{
+    "name" : "unary_add",
+    "alphabet": [ "1", ".", "+", "=" ],
+    "blank" : ".",
+    "states" : [ "START", "FIND+", "FIND=", "CHECKEND", "OVERWRITE1", "FIND+BACKWARDS", "HALT" ],
+    "initial" : "START",
+    "finals" : [ "HALT" ],
+    "transitions" : {
+
+        "START" : [
+            { "read" : "1", "to_state": "FIND+", "write": "1", "action": "RIGHT"},
+            { "read" : "+", "to_state": "HALT", "write": "+", "action": "RIGHT"},
+            { "read" : "=", "to_state": "HALT" , "write": "=", "action": "RIGHT" },
+            { "read" : ".", "to_state": "HALT", "write": ".", "action": "RIGHT"}
+        ],
+
+        "FIND+" : [
+            { "read" : "1", "to_state": "FIND+", "write": "1", "action": "RIGHT"},
+            { "read" : "+", "to_state": "FIND=", "write": "+", "action": "RIGHT"},
+            { "read" : "=", "to_state": "HALT" , "write": "=", "action": "RIGHT" },
+            { "read" : ".", "to_state": "HALT", "write": ".", "action": "RIGHT"}
+        ],
+
+        "FIND=" : [
+            { "read" : "1", "to_state": "FIND=", "write": "1", "action": "RIGHT"},
+            { "read" : "=", "to_state": "CHECKEND" , "write": "=", "action": "RIGHT" },
+            { "read" : "+", "to_state": "HALT", "write": "+", "action": "RIGHT"},
+            { "read" : ".", "to_state": "HALT", "write": ".", "action": "RIGHT"}
+        ],
+
+        "CHECKEND" : [
+            { "read" : ".", "to_state": "OVERWRITE1", "write": ".", "action": "LEFT"},
+            { "read" : "=", "to_state": "HALT" , "write": "=", "action": "RIGHT" },
+            { "read" : "1", "to_state": "HALT", "write": "1", "action": "RIGHT"},
+            { "read" : "+", "to_state": "HALT", "write": "+", "action": "RIGHT"}
+        ],
+
+        "OVERWRITE1" : [
+            { "read" : "=", "to_state": "OVERWRITE1" , "write": ".", "action": "LEFT" },
+            { "read" : "1", "to_state": "FIND+BACKWARDS", "write": ".", "action": "LEFT"},
+            { "read" : "+", "to_state": "HALT", "write": "+", "action": "RIGHT"}
+        ],
+
+        "FIND+BACKWARDS" : [
+            { "read" : "1", "to_state": "FIND+BACKWARDS", "write": ".", "action": "LEFT"},
+            { "read" : "+", "to_state": "HALT", "write": "1", "action": "RIGHT"}
+        ]
+    }
+}
