@@ -1,0 +1,71 @@
+{
+    "name": "palindrome",
+    "alphabet": ["a", "b", "." ],
+    "blank": ".",
+    "states": ["START", "CHECK_END", "MATCH_A", "MATCH_B", "RETURN_START", "CHECK_MIDDLE", "NO", "YES", "HALT"],
+    "initial": "START",
+    "finals": ["HALT"],
+
+    "transitions": {
+
+        "START": [
+            { "read": "a", "to_state": "START", "write": "a", "action": "RIGHT" },
+            { "read": "b", "to_state": "START", "write": "b", "action": "RIGHT" },
+            { "read": ".", "to_state": "INITSEARCH", "write": ".", "action": "LEFT" }
+        ],
+
+        "INITSEARCH": [
+            { "read": "a", "to_state": "CHECK_LAST_A", "write": ".", "action": "LEFT" },
+            { "read": "b", "to_state": "CHECK_LAST_B", "write": ".", "action": "LEFT" },
+            { "read": ".", "to_state": "YES", "write": ".", "action": "RIGHT" }
+        ],
+
+        "CHECK_LAST_A": [
+            { "read": "a", "to_state": "FIND_START_A", "write": "a", "action": "LEFT" },
+            { "read": "b", "to_state": "FIND_START_A", "write": "b", "action": "LEFT" },
+            { "read": ".", "to_state": "YES", "write": ".", "action": "RIGHT" }
+        ],
+
+        "CHECK_LAST_B": [
+            { "read": "a", "to_state": "FIND_START_B", "write": "a", "action": "LEFT" },
+            { "read": "b", "to_state": "FIND_START_B", "write": "b", "action": "LEFT" },
+            { "read": ".", "to_state": "YES", "write": ".", "action": "RIGHT" }
+        ],
+
+        "FIND_START_A": [
+            { "read": "b", "to_state": "FIND_START_A", "write": "b", "action": "LEFT" },
+            { "read": "a", "to_state": "FIND_START_A", "write": "a", "action": "LEFT" },
+            { "read": ".", "to_state": "MATCH_A", "write": ".", "action": "RIGHT" }
+        ],
+
+        "FIND_START_B": [
+            { "read": "b", "to_state": "FIND_START_B", "write": "b", "action": "LEFT" },
+            { "read": "a", "to_state": "FIND_START_B", "write": "a", "action": "LEFT" },
+            { "read": ".", "to_state": "MATCH_B", "write": ".", "action": "RIGHT" }
+        ],
+
+        "MATCH_A": [
+            { "read": "a", "to_state": "START", "write": ".", "action": "RIGHT" },
+            { "read": "b", "to_state": "NO", "write": "b", "action": "RIGHT" }
+        ],
+
+        "MATCH_B": [
+            { "read": "b", "to_state": "START", "write": ".", "action": "RIGHT" },
+            { "read": "a", "to_state": "NO", "write": "a", "action": "RIGHT" }
+        ],
+
+
+        "NO": [
+            { "read": "a", "to_state": "NO", "write": "a", "action": "RIGHT" },
+            { "read": "b", "to_state": "NO", "write": "b", "action": "RIGHT" },
+            { "read": ".", "to_state": "HALT", "write": "n", "action": "RIGHT" }
+        ],
+
+        "YES": [
+            { "read": "a", "to_state": "YES", "write": "a", "action": "RIGHT" },
+            { "read": "b", "to_state": "YES", "write": "b", "action": "RIGHT" },
+            { "read": ".", "to_state": "HALT", "write": "y", "action": "RIGHT" }
+        ]
+    }
+}
+
