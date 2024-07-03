@@ -72,7 +72,7 @@ impl MachineTape {
                 }
             },
             Action::RIGHT => {
-                if self.head == self.tape.len() {
+                if self.head == self.tape.len() - 1 {
                     self.tape.push(self.blank);
                 }
                 self.head = self.head + 1
@@ -86,7 +86,6 @@ impl MachineTape {
 
     pub fn get_read(&self) -> &char {
         self.tape.get(self.head).unwrap()
-        // self.tape.chars().nth(self.head).unwrap()
     }
 
     pub fn perform_write(&mut self, value: &char) {
