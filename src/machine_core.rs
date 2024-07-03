@@ -58,9 +58,10 @@ impl MachineCore {
             let mut handle = stdout.lock();
             let _ = handle.write(&buffer.as_bytes());
             if self.description.check_for_end(&self.state) == true {
-                return;
+                break;
             }
             buffer.clear();
         }
+    // println!("Machine Tape: {:?}", &self.tape);
     }
 }

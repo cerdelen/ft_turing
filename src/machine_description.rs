@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use std::fmt;
 use std::fs::File;
 use std::io::BufReader;
+use crate::consts::*;
 
 pub enum DescriptionErrors {
     NoTransitionsForState,
@@ -96,22 +97,22 @@ impl fmt::Display for Transition {
 }
 impl fmt::Display for MachineDescription {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        writeln!(f, "********************************************************************************")?;
-        writeln!(f, "*                                                                              *")?;
-        writeln!(f, "* {:<74} *", self.name)?;
-        writeln!(f, "*                                                                              *")?;
-        writeln!(f, "********************************************************************************")?;
-        writeln!(f, "Alphabet: {:?}", self.alphabet)?;
-        writeln!(f, "States   : {:?}", self.states)?;
-        writeln!(f, "Initial  : {:?}", self.initial)?;
-        writeln!(f, "Finals   : {:?}", self.finals)?;
+        writeln!(f, "\n\n{}", H_BORDER)?;
+        writeln!(f, "{}", V_BORDER)?;
+        writeln!(f, "* {}{}\t\t\t\t{:<46}{} *", CYAN_CHAR, BOLD_CHAR, self.name, RESET_CHAR)?;
+        writeln!(f, "{}", V_BORDER)?;
+        writeln!(f, "{}\n\n", H_BORDER)?;
+        writeln!(f, "{}Alphabet :{} {}{:?}{}\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.alphabet, RESET_CHAR)?;
+        writeln!(f, "{}States   :{} {}{:?}{}\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.states, RESET_CHAR)?;
+        writeln!(f, "{}Initial  :{} {}{:?}{}\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.initial, RESET_CHAR)?;
+        writeln!(f, "{}Finals   :{} {}{:?}{}\n\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.finals, RESET_CHAR)?;
         for transitions in self.transitions.iter() {
             writeln!(f, "{:?}:", transitions.0)?;
             for transition in transitions.1 {
                 writeln!(f, "\t{}", transition)?;
             }
         }
-        writeln!(f, "********************************************************************************")?;
+        writeln!(f, "\n\n{}", H_BORDER)?;
         Ok(())
     }
 }

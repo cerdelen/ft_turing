@@ -1,30 +1,7 @@
 
 use std::fs::File;
 use std::io::{BufReader, Read};
-
 use crate::machine_description::{Action, MachineDescription};
-
-
-// #[derive(Debug)]
-// pub enum RunningOfTapeErr {
-//     LEFT,
-//     RIGHT,
-// }
-
-// impl fmt::Display for RunningOfTapeErr {
-//     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-//         match self {
-//             RunningOfTapeErr::LEFT => write!(f, "Ran off the Tape to the Left"),
-//             RunningOfTapeErr::RIGHT => write!(f, "Ran off the Tape to the Right"),
-//         }
-//     }
-// }
-
-// impl std::error::Error for RunningOfTapeErr {}
-
-
-
-
 
 #[derive(Debug)]
 pub struct MachineTape {
