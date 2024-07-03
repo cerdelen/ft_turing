@@ -1,10 +1,9 @@
-use std::error::Error;
+
 use std::fs::File;
 use std::io::{BufReader, Read};
 
 use crate::machine_description::{Action, MachineDescription};
 
-use std::fmt;
 
 // #[derive(Debug)]
 // pub enum RunningOfTapeErr {
@@ -34,6 +33,7 @@ pub struct MachineTape {
     blank: char,
 }
 
+#[allow(dead_code)]
 pub enum HeadDirection {
     LEFT,
     RIGHT

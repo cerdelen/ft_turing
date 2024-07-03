@@ -17,7 +17,7 @@ impl MachineCore {
             state: initial_state,
         }
     }
-
+    #[allow(unused_assignments)]
     pub fn run(&mut self) {
         let mut buffer = String::new();
         let mut curr_head_pos: usize = 0;
