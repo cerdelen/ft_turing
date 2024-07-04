@@ -32,7 +32,7 @@ impl MachineCore {
                     buffer.push(*c);
                 }
             }
-            buffer.push_str(&format!(" ]   "));
+            buffer.push_str(&format!(" ]\t "));
             let read = self.tape.get_read();
             buffer.push_str(&format!("( {}state:{} {:>20},  {}read:{} {} )",BOLD_YELLOW_CHAR, RESET_CHAR,
                         self.state, BOLD_YELLOW_CHAR, RESET_CHAR, read));
@@ -43,7 +43,8 @@ impl MachineCore {
                         DescriptionErrors::NoTransitionsForState =>
                             panic!("No TransitionsVector for Current State \"{}\"", self.state),
                         DescriptionErrors::NoTransitionForReadInState =>
-                            panic!("No Transition for Current Read in Transitionsvector for Current State \"{}\"", self.state),
+                            panic!("{}\n\n{}No Transition for Current Read in Transitionsvector for Current State: {}⌲ \"{}\"{}\n\n{}",
+                            H_BORDER, BOLD_RED_CHAR, BOLD_YELLOW_CHAR, self.state, RESET_CHAR, H_BORDER),
                     }
                 },
             };
@@ -64,6 +65,6 @@ impl MachineCore {
             }
             buffer.clear();
         }
-        println!("\n\n{}Final Tape:{} {}\n\n", BOLD_GREEN_CHAR, RESET_CHAR, &self.tape);
+        println!("\n\n{}⌲ Final Tape:{} {}\n\n", BOLD_GREEN_CHAR, RESET_CHAR, &self.tape);
     }
 }

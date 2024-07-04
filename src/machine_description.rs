@@ -107,7 +107,8 @@ impl fmt::Display for MachineDescription {
         writeln!(f, "{}Alphabet :{} {}{:?}{}\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.alphabet, RESET_CHAR)?;
         writeln!(f, "{}States   :{} {}{:?}{}\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.states, RESET_CHAR)?;
         writeln!(f, "{}Initial  :{} {}{:?}{}\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.initial, RESET_CHAR)?;
-        writeln!(f, "{}Finals   :{} {}{:?}{}\n\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.finals, RESET_CHAR)?;
+        writeln!(f, "{}Finals   :{} {}{:?}{}\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.finals, RESET_CHAR)?;
+        writeln!(f, "{}Blank    :{} {}{:?}{}\n\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.blank, RESET_CHAR)?;
         write!(f, "\n{}\n\n", H_BORDER)?;
 
         for transitions in self.transitions.iter() {

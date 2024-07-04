@@ -2,6 +2,7 @@
 use core::fmt;
 use std::fs::File;
 use std::io::{BufReader, Read};
+use crate::consts::*;
 use crate::machine_description::{Action, MachineDescription};
 
 #[derive(Debug)]
@@ -30,10 +31,12 @@ impl MachineTape {
         // Checking for illegal Character
         for (i, c) in tape.iter().enumerate() {
             if desc.get_blank() == *c {
-                panic!("Blank is not allowed in Input Tape! Blank at index: {}\n", i);
+                panic!("\n{}\n\n\t {}Blank is not allowed in Input Tape! Blank at index: {}⌲ {}{}\n\n{}\n",
+                H_BORDER, BOLD_RED_CHAR, BOLD_YELLOW_CHAR, i, RESET_CHAR, H_BORDER);
             }
             if desc.part_of_alphabet(&c) == false {
-                panic!("Illegal Character ({}) not Part of the Alphabet in the Tape at Index {}\n", c, i);
+                panic!("\n{}\n\n{}  Illegal Character {}[ {} ]{} not Part of the Alphabet in the Tape at Index {}⌲ {}{}\n\n{}\n",
+                H_BORDER, BOLD_RED_CHAR, BOLD_YELLOW_CHAR,c, BOLD_RED_CHAR, BOLD_YELLOW_CHAR, i, RESET_CHAR, H_BORDER);
             }
         }
         Self{tape, head: 0, blank: desc.get_blank()}
