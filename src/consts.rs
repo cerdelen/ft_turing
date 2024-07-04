@@ -8,3 +8,4 @@ pub const BOLD_PINK_CHAR: &str = "\u{1b}[1;35m";
 pub const ON_PINK_CHAR: &str = "\u{1b}[45m";
 pub const V_BORDER: &str = "*                                                                              *";
 pub const H_BORDER: &str = "********************************************************************************";
+pub const UTM_ENCODING_TO_INPUT_DELIMITER: char = '#';

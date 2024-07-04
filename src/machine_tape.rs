@@ -18,10 +18,22 @@ pub enum HeadDirection {
 }
 
 impl MachineTape {
+    // init with bufreader
     pub fn new(input: &mut BufReader<File>, desc: &MachineDescription) -> Self {
         let mut content = String::new();
         input.read_to_string(&mut content).expect("Could not Read Input Tape");
         // deleting new line
+        let tape = MachineTape::tape_input_validation(content, desc);
+        Self{tape, head: 0, blank: desc.get_blank()}
+    }
+
+    // init with String
+    pub fn init(content: String, desc: &MachineDescription) -> Self {
+        let tape = MachineTape::tape_input_validation(content, desc);
+        Self{tape, head: 0, blank: desc.get_blank()}
+    }
+
+    fn tape_input_validation(mut content: String, desc: &MachineDescription) -> Vec<char> {
         if content.ends_with('\n') {
             content.pop();
         }
@@ -36,8 +48,9 @@ impl MachineTape {
                 panic!("Illegal Character ({}) not Part of the Alphabet in the Tape at Index {}\n", c, i);
             }
         }
-        Self{tape, head: 0, blank: desc.get_blank()}
+        tape
     }
+
 
     pub fn move_head(&mut self, direction: &Action) {
         match direction {
