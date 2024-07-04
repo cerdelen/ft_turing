@@ -91,7 +91,9 @@ impl MachineDescription {
 
 impl fmt::Display for Transition {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "\'{}\' -> (write: \'{}\', action: {:?}, change_to: {})", self.read, self.write, self.action, self.to_state)?;
+        write!(f, "\'{}{}{}\' -> (write: \'{}{}{}\', action: {}{:?}{}, change_to: {}{}{})",
+        BOLD_PINK_CHAR, self.read, RESET_CHAR, CYAN_CHAR, self.write, RESET_CHAR, CYAN_CHAR,
+        self.action, RESET_CHAR, CYAN_CHAR, self.to_state, RESET_CHAR)?;
         Ok(())
     }
 }
@@ -106,8 +108,10 @@ impl fmt::Display for MachineDescription {
         writeln!(f, "{}States   :{} {}{:?}{}\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.states, RESET_CHAR)?;
         writeln!(f, "{}Initial  :{} {}{:?}{}\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.initial, RESET_CHAR)?;
         writeln!(f, "{}Finals   :{} {}{:?}{}\n\n", BOLD_PINK_CHAR, RESET_CHAR, GREEN_CHAR, self.finals, RESET_CHAR)?;
+        write!(f, "\n{}\n\n", H_BORDER)?;
+
         for transitions in self.transitions.iter() {
-            writeln!(f, "{:?}:", transitions.0)?;
+            writeln!(f, "{}{:?}{} :\n", GREEN_CHAR, transitions.0, RESET_CHAR)?;
             for transition in transitions.1 {
                 writeln!(f, "\t{}", transition)?;
             }

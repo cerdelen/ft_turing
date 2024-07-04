@@ -24,17 +24,18 @@ impl MachineCore {
 
         loop {
             curr_head_pos = self.tape.get_head_pos();
-            buffer.push_str(&format!("["));
+            buffer.push_str(&format!("{}⌲{} [ ", BOLD_PINK_CHAR, RESET_CHAR));
             for (index, c) in self.tape.get_full_tape().iter().enumerate() {
                 if curr_head_pos == index {
-                    buffer.push_str(&format!("<{}>", *c));
+                    buffer.push_str(&format!("{}{}{}",ON_PINK_CHAR, *c, RESET_CHAR));
                 } else {
                     buffer.push(*c);
                 }
             }
-            buffer.push_str(&format!("] "));
+            buffer.push_str(&format!(" ]   "));
             let read = self.tape.get_read();
-            buffer.push_str(&format!("(state: {}, read: {}) ", self.state, read));
+            buffer.push_str(&format!("( {}state:{} {:>10},  {}read:{} {} )",BOLD_YELLOW_CHAR, RESET_CHAR,
+                        self.state, BOLD_YELLOW_CHAR, RESET_CHAR, read));
             let trans = match self.description.get_transition(&self.state, read) {
                 Ok(trans) => trans,
                 Err(err) => {
@@ -47,8 +48,9 @@ impl MachineCore {
                 },
             };
             buffer.push_str(&format!(
-                "-> (write: {}, switch: {}, action: {:?})\n",
-                trans.write, trans.to_state, trans.action
+                " \t->\t( {}write:{} {},  {}switch:{} {:>10}, {}action:{} {:?}\t)\n",
+                BOLD_GREEN_CHAR, RESET_CHAR, trans.write, BOLD_GREEN_CHAR, RESET_CHAR,
+                trans.to_state, BOLD_GREEN_CHAR,  RESET_CHAR , trans.action
             ));
             self.tape.perform_write(&trans.write);
             self.tape.move_head(&trans.action);
@@ -62,6 +64,6 @@ impl MachineCore {
             }
             buffer.clear();
         }
-        println!("\n\n{}Machine Tape:{} {}\n\n", BOLD_GREEN_CHAR, RESET_CHAR, &self.tape);
+        println!("\n\n{}Final Tape:{} {}\n\n", BOLD_GREEN_CHAR, RESET_CHAR, &self.tape);
     }
 }

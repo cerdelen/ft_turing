@@ -4,6 +4,7 @@ use std::path::Path;
 use std::fs::File;
 use std::io::BufReader;
 
+use crate::consts::{CYAN_CHAR, H_BORDER, RESET_CHAR};
 use crate::machine_description::MachineDescription;
 use crate::machine_tape::MachineTape;
 
@@ -31,8 +32,8 @@ pub fn init() -> (MachineDescription, MachineTape, String) {
     let input: MachineTape = MachineTape::new(&mut machine_input_reader, &desc);
 
     // This is official starting Tape print, overloaded
-    println!("Machine Tape: {:?}\n", &input);
-    println!("********************************************************************************");
+    println!("{}Input Tape:{} {}\n",CYAN_CHAR, RESET_CHAR, &input);
+    println!("{}\n\n",H_BORDER);
 
     (desc, input, initial_state)
 }
