@@ -2,7 +2,7 @@
     "name" : "zero_2_n",
     "alphabet": [ "0", "1", "X", "Y", "." ],
     "blank" : ".",
-    "states" : [ "START", "CHECKINPUT0", "FINDLAST1", "NO", "YES", "WRITEY", "FINDFIRST0", "WRITEX", "SECONDSTART", "HALT" ],
+    "states" : [ "START", "CHECKINPUT0", "CHECKINPUT1", "FINDLAST1", "WRITEY", "FINDFIRST0", "WRITEX", "SECONDSTART", "NO", "YES", "HALT" ],
     "initial" : "START",
     "finals" : [ "HALT" ],
     "transitions" : {
