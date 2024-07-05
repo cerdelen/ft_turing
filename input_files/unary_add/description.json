@@ -42,7 +42,7 @@
         ],
 
         "FIND+BACKWARDS" : [
-            { "read" : "1", "to_state": "FIND+BACKWARDS", "write": ".", "action": "LEFT"},
+            { "read" : "1", "to_state": "FIND+BACKWARDS", "write": "1", "action": "LEFT"},
             { "read" : "+", "to_state": "HALT", "write": "1", "action": "RIGHT"}
         ]
     }
