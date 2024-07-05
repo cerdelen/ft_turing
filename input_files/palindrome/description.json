@@ -2,7 +2,7 @@
     "name": "palindrome",
     "alphabet": ["a", "b", "." ],
     "blank": ".",
-    "states": ["START", "CHECK_END", "MATCH_A", "MATCH_B", "RETURN_START", "CHECK_MIDDLE", "NO", "YES", "HALT"],
+    "states": ["START", "INITSEARCH", "CHECK_LAST_A", "CHECK_LAST_B", "FIND_START_A", "FIND_START_B", "MATCH_A", "MATCH_B", "NO", "YES", "HALT" ],
     "initial": "START",
     "finals": ["HALT"],
 
