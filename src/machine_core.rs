@@ -6,11 +6,11 @@ use crate::machine_tape::MachineTape;
 pub struct MachineCore {
     description: MachineDescription,
     tape: MachineTape,
-    state: String,
+    state: usize,
 }
 
 impl MachineCore {
-    pub fn new(desc: MachineDescription, tape: MachineTape, initial_state: String) -> Self {
+    pub fn new(desc: MachineDescription, tape: MachineTape, initial_state: usize) -> Self {
         Self {
             description: desc,
             tape,
@@ -35,23 +35,23 @@ impl MachineCore {
             buffer.push_str(&format!(" ]\t "));
             let read = self.tape.get_read();
             buffer.push_str(&format!("( {}state:{} {:>20},  {}read:{} {} )",BOLD_YELLOW_CHAR, RESET_CHAR,
-                        self.state, BOLD_YELLOW_CHAR, RESET_CHAR, read));
-            let trans = match self.description.get_transition(&self.state, read) {
+            self.description.get_state_name(self.state), BOLD_YELLOW_CHAR, RESET_CHAR, read));
+            let trans = match self.description.get_transition(self.state, read) {
                 Ok(trans) => trans,
                 Err(err) => {
                     match err {
                         DescriptionErrors::NoTransitionsForState =>
-                            panic!("No TransitionsVector for Current State \"{}\"", self.state),
+                            panic!("No TransitionsVector for Current State \"{}\"", self.description.get_state_name(self.state)),
                         DescriptionErrors::NoTransitionForReadInState =>
                             panic!("{}\n\n{}No Transition for Current Read in Transitionsvector for Current State: {}⌲ \"{}\"{}\n\n{}",
-                            H_BORDER, BOLD_RED_CHAR, BOLD_YELLOW_CHAR, self.state, RESET_CHAR, H_BORDER),
+                            H_BORDER, BOLD_RED_CHAR, BOLD_YELLOW_CHAR, self.description.get_state_name(self.state), RESET_CHAR, H_BORDER),
                     }
                 },
             };
             buffer.push_str(&format!(
                 " \t->\t( {}write:{} {},  {}switch:{} {:>20}, {}action:{} {:?} )\n",
                 BOLD_GREEN_CHAR, RESET_CHAR, trans.write, BOLD_GREEN_CHAR, RESET_CHAR,
-                trans.to_state, BOLD_GREEN_CHAR,  RESET_CHAR , trans.action
+                self.description.get_state_name(self.state), BOLD_GREEN_CHAR,  RESET_CHAR , trans.action
             ));
             self.tape.perform_write(&trans.write);
             self.tape.move_head(&trans.action);
@@ -60,7 +60,7 @@ impl MachineCore {
             let stdout = io::stdout();
             let mut handle = stdout.lock();
             let _ = handle.write(&buffer.as_bytes());
-            if self.description.check_for_end(&self.state) == true {
+            if self.description.check_for_end(self.state) == true {
                 break;
             }
             buffer.clear();
