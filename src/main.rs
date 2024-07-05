@@ -7,7 +7,7 @@ mod machine_core;
 mod consts;
 
 fn main() {
-    let (desc, tape, initial_state) = args::init();
-    let mut machine = MachineCore::new(desc, tape, initial_state);
+    let (desc, tape, initial_state, fast) = args::init();
+    let mut machine = MachineCore::new(desc, tape, initial_state, fast);
     machine.run()
 }

@@ -1,5 +1,6 @@
 use clap:: Parser;
 
+use std::env::args;
 use std::path::Path;
 use std::fs::File;
 use std::io::BufReader;
@@ -14,10 +15,13 @@ use crate::machine_tape::MachineTape;
 pub struct TuringMachineArgs {
     pub machine_description: String,
     pub machine_tape: String,
+    #[clap(short = 'f', long = "fast")]
+    pub fast_mode: bool,
 }
 
 
-pub fn init() -> (MachineDescription, MachineTape, usize) {
+
+pub fn init() -> (MachineDescription, MachineTape, usize, bool) {
     let args = TuringMachineArgs::parse();
 
     let m_d_file = File::open(Path::new(&args.machine_description)).expect(&format!("Could not open Machine Description File \"{:?}\"", &args.machine_description));
@@ -35,5 +39,5 @@ pub fn init() -> (MachineDescription, MachineTape, usize) {
     println!("{}⌲ Input Tape:{} {}\n", CYAN_CHAR, RESET_CHAR, &input);
     println!("{}\n\n", H_BORDER);
 
-    (desc, input, initial_state)
+    (desc, input, initial_state, args.fast_mode)
 }
