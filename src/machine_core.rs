@@ -14,7 +14,7 @@ impl MachineCore {
     pub fn new(
         desc: MachineDescription,
         tape: MachineTape,
-        initial_state: String,
+        initial_state: usize,
         fast: bool,
     ) -> Self {
         Self {
@@ -52,11 +52,6 @@ impl MachineCore {
             buffer.push_str(&format!("( {}state:{} {:>20},  {}read:{} {} )",BOLD_YELLOW_CHAR, RESET_CHAR,
             self.description.get_state_name(self.state), BOLD_YELLOW_CHAR, RESET_CHAR, read));
             let trans = match self.description.get_transition(self.state, read) {
-            buffer.push_str(&format!(
-                "( {}state:{} {:>20},  {}read:{} {} )",
-                BOLD_YELLOW_CHAR, RESET_CHAR, self.state, BOLD_YELLOW_CHAR, RESET_CHAR, read
-            ));
-            let trans = match self.description.get_transition(&self.state, read) {
                 Ok(trans) => trans,
                 Err(err) => {
                     match err {
@@ -72,15 +67,6 @@ impl MachineCore {
                 " \t->\t( {}write:{} {},  {}switch:{} {:>20}, {}action:{} {:?} )\n",
                 BOLD_GREEN_CHAR, RESET_CHAR, trans.write, BOLD_GREEN_CHAR, RESET_CHAR,
                 self.description.get_state_name(self.state), BOLD_GREEN_CHAR,  RESET_CHAR , trans.action
-                BOLD_GREEN_CHAR,
-                RESET_CHAR,
-                trans.write,
-                BOLD_GREEN_CHAR,
-                RESET_CHAR,
-                trans.to_state,
-                BOLD_GREEN_CHAR,
-                RESET_CHAR,
-                trans.action
             ));
             self.tape.perform_write(&trans.write);
             self.tape.move_head(&trans.action);
@@ -103,7 +89,7 @@ impl MachineCore {
     fn run_fast(&mut self) {
         loop {
             let read = self.tape.get_read();
-            let trans = match self.description.get_transition(&self.state, read) {
+            let trans = match self.description.get_transition(self.state, read) {
                 Ok(trans) => trans,
                 Err(err) => {
                     match err {
@@ -119,7 +105,7 @@ impl MachineCore {
             self.tape.move_head(&trans.action);
             self.state = trans.to_state.clone();
 
-            if self.description.check_for_end(&self.state) == true {
+            if self.description.check_for_end(self.state) == true {
                 break;
             }
         }
