@@ -8,13 +8,13 @@
     "transitions" : {
 
         "EVEN" : [
-            { "read" : ".", "to_state": "HALT" , "write": "y", "action": "RIGHT"},
-            { "read" : "0", "to_state": "UNEVEN" , "write": "0", "action": "RIGHT"},
+            { "read" : ".", "to_state": "HALT" , "write": "y", "action": "LEFT"},
+            { "read" : "0", "to_state": "UNEVEN" , "write": "0", "action": "RIGHT"}
         ],
 
         "UNEVEN": [
-            { "read" : ".", "to_state": "HALT" , "write": "n", "action": "RIGHT"},
-            { "read" : "0", "to_state": "EVEN" , "write": "0", "action": "RIGHT"},
+            { "read" : ".", "to_state": "HALT" , "write": "n", "action": "LEFT"},
+            { "read" : "0", "to_state": "EVEN" , "write": "0", "action": "RIGHT"}
         ]
     }
 }
