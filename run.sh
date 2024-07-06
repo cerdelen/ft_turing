@@ -1,5 +1,5 @@
 
-cargo watch -x "run input_files/unary_sub/machine_description.json input_files/unary_sub/machine_input_tape"
+cargo watch -x "run input_files/unary_sub/machine_description.json input_files/unary_sub/input"
 
 # cargo run input_files/unary_sub/machine_description.json input_files/unary_sub/machine_input_tape
 

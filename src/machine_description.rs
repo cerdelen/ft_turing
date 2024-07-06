@@ -34,7 +34,7 @@ impl<'de> Deserialize<'de> for Action {
 
 #[derive(Deserialize, Debug)]
 pub struct Transition {
-    read: char,
+    pub read: char,
     pub to_state: usize,
     pub write: char,
     pub action: Action,
@@ -146,14 +146,6 @@ impl MachineDescription {
     }
 }
 
-impl fmt::Display for Transition {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "\'{}{}{}\' -> (write: \'{}{}{}\', action: {}{:?}{}, change_to: {}{}{})",
-        BOLD_PINK_CHAR, self.read, RESET_CHAR, CYAN_CHAR, self.write, RESET_CHAR, CYAN_CHAR,
-        self.action, RESET_CHAR, CYAN_CHAR, self.to_state, RESET_CHAR)?;
-        Ok(())
-    }
-}
 
 impl fmt::Display for MachineDescription {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -177,9 +169,12 @@ impl fmt::Display for MachineDescription {
         for (i, transitions) in self.transitions.iter().enumerate() {
             writeln!(f, "{}{:?}{} :\n", GREEN_CHAR, self.get_state_name(i), RESET_CHAR)?;
             for transition in transitions {
-                writeln!(f, "\t{}", transition.1)?;
+                write!(f, "\t\'{}{}{}\' -> (write: \'{}{}{}\', action: {}{:?}{}, change_to: {}{}{})\n",
+                BOLD_PINK_CHAR, transition.1.read, RESET_CHAR, CYAN_CHAR, transition.1.write, RESET_CHAR, CYAN_CHAR,
+                transition.1.action, RESET_CHAR, CYAN_CHAR, self.get_state_name(transition.1.to_state), RESET_CHAR)?;
             }
-        }
+        write!(f, "\n")?;
+    }
         writeln!(f, "\n\n{}", H_BORDER)?;
         Ok(())
     }
