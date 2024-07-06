@@ -21,7 +21,10 @@ pub enum HeadDirection {
 impl MachineTape {
     pub fn new(input: &mut BufReader<File>, desc: &MachineDescription) -> Self {
         let mut content = String::new();
-        input.read_to_string(&mut content).expect("Could not Read Input Tape");
+        input.read_to_string(&mut content)
+            .expect(&format!("\n{}\n\n\t\t{}ICould not Read Input Tape!{}\n\n{}\n\n",
+            H_BORDER, BOLD_RED_CHAR, RESET_CHAR, H_BORDER));
+
         // deleting new line
         if content.ends_with('\n') {
             content.pop();

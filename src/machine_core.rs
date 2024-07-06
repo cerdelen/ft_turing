@@ -56,7 +56,8 @@ impl MachineCore {
                 Err(err) => {
                     match err {
                         DescriptionErrors::NoTransitionsForState =>
-                            panic!("No TransitionsVector for Current State \"{}\"", self.description.get_state_name(self.state)),
+                            panic!("{}\n\n{}No TransitionsVector for Current State: {}⌲ \"{}\"{}\n\n{}", 
+                            H_BORDER, BOLD_RED_CHAR, BOLD_YELLOW_CHAR, self.description.get_state_name(self.state), RESET_CHAR, H_BORDER),
                         DescriptionErrors::NoTransitionForReadInState =>
                             panic!("{}\n\n{}No Transition for Current Read in Transitionsvector for Current State: {}⌲ \"{}\"{}\n\n{}",
                             H_BORDER, BOLD_RED_CHAR, BOLD_YELLOW_CHAR, self.description.get_state_name(self.state), RESET_CHAR, H_BORDER),
