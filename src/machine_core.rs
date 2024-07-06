@@ -32,7 +32,7 @@ impl MachineCore {
             self.run_slow();
         }
     }
-
+    #[allow(unused_assignments)]
     fn run_slow(&mut self) {
         let mut buffer = String::new();
         let mut curr_head_pos: usize = 0;

@@ -1,6 +1,5 @@
 use clap:: Parser;
 
-use std::env::args;
 use std::path::Path;
 use std::fs::File;
 use std::io::BufReader;

@@ -79,31 +79,31 @@ impl MachineDescription {
     }
 
 
-    fn transform(initDesc: &InitMachineDescription) -> Self {
+    fn transform(init_desc: &InitMachineDescription) -> Self {
         let mut finals = Vec::new();
-        for finalstate in &initDesc.finals {
-            finals.push(initDesc.states.iter().position(|s| s == finalstate).expect(&format!("Statename not found {}", finalstate)));
+        for finalstate in &init_desc.finals {
+            finals.push(init_desc.states.iter().position(|s| s == finalstate).expect(&format!("Statename not found {}", finalstate)));
         };
         let mut transitions: Vec<HashMap<char, Transition>> = Vec::new();
-        transitions.reserve(initDesc.states.len());
-        for n in 1..initDesc.states.len() {
+        transitions.reserve(init_desc.states.len());
+        for _ in 1..init_desc.states.len() {
             transitions.push(HashMap::new());
         }
-        let initial = initDesc.states.iter().position(|s| s == &initDesc.initial).expect(&format!("Statename not found {}", &initDesc.initial));
-        for transition_state in &initDesc.transitions {
-            let statename_idx = initDesc.states.iter().position(|s| s == transition_state.0).expect(&format!("Statename not found {}", &transition_state.0));
+        let initial = init_desc.states.iter().position(|s| s == &init_desc.initial).expect(&format!("Statename not found {}", &init_desc.initial));
+        for transition_state in &init_desc.transitions {
+            let statename_idx = init_desc.states.iter().position(|s| s == transition_state.0).expect(&format!("Statename not found {}", &transition_state.0));
             let mut transitions_map: HashMap<char, Transition> = HashMap::new();
             for transition in transition_state.1 {
-                let to_statename_idx = initDesc.states.iter().position(|s| s == &transition.to_state).expect(&format!("Statename not found {}", &transition_state.0));
+                let to_statename_idx = init_desc.states.iter().position(|s| s == &transition.to_state).expect(&format!("Statename not found {}", &transition_state.0));
                 transitions_map.insert(transition.read, Transition { read: transition.read, to_state: to_statename_idx, write: transition.write, action: transition.action.clone() });
             }
             transitions[statename_idx] = transitions_map;
         }
         Self {
-            name: initDesc.name.to_owned(),
-            alphabet: initDesc.alphabet.to_owned(),
-            blank: initDesc.blank.to_owned(),
-            states: initDesc.states.to_owned(),
+            name: init_desc.name.to_owned(),
+            alphabet: init_desc.alphabet.to_owned(),
+            blank: init_desc.blank.to_owned(),
+            states: init_desc.states.to_owned(),
             finals,
             transitions,
             initial,
