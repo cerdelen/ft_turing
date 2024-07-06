@@ -85,7 +85,7 @@ impl MachineDescription {
         let mut finals = Vec::new();
         for finalstate in &init_desc.finals {
             finals.push(init_desc.states.iter().position(|s| s == finalstate)
-                .expect(&format_error_message("Statename not found ", &finalstate)));
+                .expect(&format_error_message("Statename in Finals Array not found ", &finalstate)));
         };
         let mut transitions: Vec<HashMap<char, Transition>> = Vec::new();
         transitions.reserve(init_desc.states.len());
@@ -93,15 +93,15 @@ impl MachineDescription {
             transitions.push(HashMap::new());
         }
         let initial = init_desc.states.iter().position(|s| s == &init_desc.initial)
-            .expect(&format_error_message("Statename not found", &init_desc.initial));
+            .expect(&format_error_message("Statename for initial State not found", &init_desc.initial));
 
         for transition_state in &init_desc.transitions {
             let statename_idx = init_desc.states.iter().position(|s| s == transition_state.0)
-                .expect(&format_error_message("Statename not found", &transition_state.0));
+                .expect(&format_error_message("Statename for Transition an Array not found", &transition_state.0));
             let mut transitions_map: HashMap<char, Transition> = HashMap::new();
             for transition in transition_state.1 {
                 let to_statename_idx = init_desc.states.iter().position(|s| s == &transition.to_state)
-                    .expect(&format_error_message("Statename not found", &transition_state.0));
+                    .expect(&format_error_message("Statename in Transition Declaration not found", &transition.to_state));
                 transitions_map.insert(transition.read, Transition { read: transition.read, to_state: to_statename_idx, write: transition.write, action: transition.action.clone() });
             }
             transitions[statename_idx] = transitions_map;
