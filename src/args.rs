@@ -24,7 +24,7 @@ pub fn init() -> (MachineDescription, MachineTape, usize, bool) {
     let args = TuringMachineArgs::parse();
 
     let m_d_file = File::open(Path::new(&args.machine_description))
-                        .expect(&format_error_message( "Machine Description File",&args.machine_description));
+                        .expect(&format_error_message("Could not open Machine Description File",&args.machine_description));
     let machine_description_reader = BufReader::new(m_d_file);
     let (desc, initial_state): (MachineDescription, usize) = MachineDescription::new(machine_description_reader);
 
