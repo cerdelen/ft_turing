@@ -1,6 +1,7 @@
 use serde::Deserializer;
 use serde::Deserialize;
 use std::collections::HashMap;
+use std::collections::HashSet;
 use std::fmt;
 use std::fs::File;
 use std::io::BufReader;
@@ -52,7 +53,7 @@ pub struct MachineDescription {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct InitTransition {
+struct InitTransition {
     pub read: char,
     pub to_state: String,
     pub write: char,
@@ -60,7 +61,7 @@ pub struct InitTransition {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct InitMachineDescription {
+struct InitMachineDescription {
     pub name: String,
     pub alphabet: Vec<char>,
     pub blank: char,
@@ -80,6 +81,13 @@ impl MachineDescription {
 
 
     fn transform(init_desc: &InitMachineDescription) -> Self {
+        let mut unique_check: HashSet<String> = HashSet::new();
+        for state in &init_desc.states {
+            match unique_check.insert(state.clone()) {
+                true => (),
+                false => panic!("{}", &format!("Duplicate State: {}", state)),
+            }
+        }
         let mut finals = Vec::new();
         for finalstate in &init_desc.finals {
             finals.push(init_desc.states.iter().position(|s| s == finalstate).expect(&format!("Statename not found {}", finalstate)));
