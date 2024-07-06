@@ -9,3 +9,9 @@ pub const BOLD_RED_CHAR: &str = "\u{1b}[1;31m";
 pub const ON_PINK_CHAR: &str = "\u{1b}[45m";
 pub const V_BORDER: &str = "*                                                                              *";
 pub const H_BORDER: &str = "********************************************************************************";
+
+pub fn format_error_message(message: &str, file_path: &String) -> String {
+
+    format!("\n{}\n\n{}{}: {} \"{}\" {}\n\n{}\n\n",
+            H_BORDER, BOLD_RED_CHAR, message, BOLD_YELLOW_CHAR, file_path, RESET_CHAR, H_BORDER)
+}

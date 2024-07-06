@@ -72,7 +72,9 @@ pub struct InitMachineDescription {
 
 impl MachineDescription {
     pub fn new(input: BufReader<File>) -> (Self, usize) {
-        let ret: InitMachineDescription = serde_json::from_reader(input).expect("Invalid Json");
+        let ret: InitMachineDescription = serde_json::from_reader(input)
+                                        .expect(&format!("\n{}\n\n\t\t{}Invalid Machine Description File!{}\n\n{}\n\n",
+                                        H_BORDER, BOLD_RED_CHAR, RESET_CHAR, H_BORDER));
         let ret: Self = MachineDescription::transform(&ret);
         let initial = ret.initial;
         (ret, initial)
@@ -82,19 +84,24 @@ impl MachineDescription {
     fn transform(init_desc: &InitMachineDescription) -> Self {
         let mut finals = Vec::new();
         for finalstate in &init_desc.finals {
-            finals.push(init_desc.states.iter().position(|s| s == finalstate).expect(&format!("Statename not found {}", finalstate)));
+            finals.push(init_desc.states.iter().position(|s| s == finalstate)
+                .expect(&format_error_message("Statename not found ", &finalstate)));
         };
         let mut transitions: Vec<HashMap<char, Transition>> = Vec::new();
         transitions.reserve(init_desc.states.len());
         for _ in 1..init_desc.states.len() {
             transitions.push(HashMap::new());
         }
-        let initial = init_desc.states.iter().position(|s| s == &init_desc.initial).expect(&format!("Statename not found {}", &init_desc.initial));
+        let initial = init_desc.states.iter().position(|s| s == &init_desc.initial)
+            .expect(&format_error_message("Statename not found", &init_desc.initial));
+
         for transition_state in &init_desc.transitions {
-            let statename_idx = init_desc.states.iter().position(|s| s == transition_state.0).expect(&format!("Statename not found {}", &transition_state.0));
+            let statename_idx = init_desc.states.iter().position(|s| s == transition_state.0)
+                .expect(&format_error_message("Statename not found", &transition_state.0));
             let mut transitions_map: HashMap<char, Transition> = HashMap::new();
             for transition in transition_state.1 {
-                let to_statename_idx = init_desc.states.iter().position(|s| s == &transition.to_state).expect(&format!("Statename not found {}", &transition_state.0));
+                let to_statename_idx = init_desc.states.iter().position(|s| s == &transition.to_state)
+                    .expect(&format_error_message("Statename not found", &transition_state.0));
                 transitions_map.insert(transition.read, Transition { read: transition.read, to_state: to_statename_idx, write: transition.write, action: transition.action.clone() });
             }
             transitions[statename_idx] = transitions_map;
@@ -142,7 +149,9 @@ impl MachineDescription {
     }
 
     pub fn get_state_name(&self, state: usize) -> &String {
-        self.states.get(state).expect("Trying to get Statename outsife of state Vector")
+        self.states.get(state)
+        .expect(&format!("\n{}\n\n\t\t{}Trying to get Statename outsife of state Vector{}\n\n{}\n\n",
+        H_BORDER, BOLD_RED_CHAR, RESET_CHAR, H_BORDER))
     }
 }
 
