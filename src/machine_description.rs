@@ -87,7 +87,7 @@ impl MachineDescription {
         for state in &init_desc.states {
             match unique_check.insert(state.clone()) {
                 true => (),
-                false => panic!("{}", &format!("Duplicate State: {}", state)),
+                false => panic!("{}", &format_error_message("\tDuplicate State in \"states\" Array", state)),
             }
         }
         let mut finals = Vec::new();
