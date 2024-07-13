@@ -56,7 +56,7 @@ impl MachineCore {
                 Err(err) => {
                     match err {
                         DescriptionErrors::NoTransitionsForState =>
-                            panic!("{}\n\n{}No TransitionsVector for Current State: {}⌲ \"{}\"{}\n\n{}", 
+                            panic!("{}\n\n{}No TransitionsVector for Current State: {}⌲ \"{}\"{}\n\n{}",
                             H_BORDER, BOLD_RED_CHAR, BOLD_YELLOW_CHAR, self.description.get_state_name(self.state), RESET_CHAR, H_BORDER),
                         DescriptionErrors::NoTransitionForReadInState =>
                             panic!("{}\n\n{}No Transition for Current Read in Transitionsvector for Current State: {}⌲ \"{}\"{}\n\n{}",
@@ -67,7 +67,7 @@ impl MachineCore {
             buffer.push_str(&format!(
                 " \t->\t( {}write:{} {},  {}switch:{} {:>20}, {}action:{} {:?} )\n",
                 BOLD_GREEN_CHAR, RESET_CHAR, trans.write, BOLD_GREEN_CHAR, RESET_CHAR,
-                self.description.get_state_name(self.state), BOLD_GREEN_CHAR,  RESET_CHAR , trans.action
+                self.description.get_state_name(trans.to_state), BOLD_GREEN_CHAR,  RESET_CHAR , trans.action
             ));
             self.tape.perform_write(&trans.write);
             self.tape.move_head(&trans.action);
